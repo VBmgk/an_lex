@@ -23,4 +23,5 @@ char readChar        (void);
 bool isDigit         (char);
 t_token addCharConst (char);
 t_token addIntConst  (char);
+t_token nextToken    (void);
 #endif
