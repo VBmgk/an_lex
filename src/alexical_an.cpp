@@ -1,10 +1,19 @@
 #include "alexical_an.hpp"
 
-void skipSeparators  (void) {} 
-char readChar        (void) { char ch; return ch; }
-bool isDigit         (char ch) { return true; }
-t_token addCharConst (char ch) { t_token token; return token; }
-t_token addIntConst  (char ch) { t_token token; return token; }
+void skipSeparators(void) {}
+char readChar(void) {
+  char ch;
+  return ch;
+}
+bool isDigit(char ch) { return true; }
+t_token addCharConst(char ch) {
+  t_token token;
+  return token;
+}
+t_token addIntConst(char ch) {
+  t_token token;
+  return token;
+}
 
 /*t_token nextToken (void) {
   // TODO: Make struct for token2
@@ -13,7 +22,7 @@ t_token addIntConst  (char ch) { t_token token; return token; }
   char next_char;
 
   // tratar comentários
-  skipSeparators(); 
+  skipSeparators();
   // token regular numeral
   if (isDigit(next_char)) {
     int n = 0;
@@ -48,7 +57,7 @@ t_token addIntConst  (char ch) { t_token token; return token; }
       case '+':
         next_char = readChar();
         if (next_char == '+') { token = PLUS_PLUS; next_char = readChar(); }
-        else { token = PLUS; } 
+        else { token = PLUS; }
         break;
 
       // token regular char
