@@ -30,7 +30,9 @@ char AlexicalAnalizer::readChar(void) {
   }
 }
 
-bool AlexicalAnalizer::isDigit(char ch) { return (ch < '0' || ch > '9') ? false:true; }
+bool AlexicalAnalizer::isDigit(char ch) {
+  return (ch < '0' || ch > '9') ? false : true;
+}
 t_token AlexicalAnalizer::addCharConst(char ch) {
   t_token token;
   return token;
