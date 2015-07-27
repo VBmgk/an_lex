@@ -58,10 +58,19 @@ typedef enum {
   UNKNOWN
 } t_token;
 
-void skipSeparators(void);
-char readChar(void);
-bool isDigit(char);
-t_token addCharConst(char);
-t_token addIntConst(char);
-t_token nextToken(void);
+class AlexicalAnalizer {
+  std::ifstream source_code;
+  t_token last_token, last_token2;
+
+public:
+  AlexicalAnalizer(std::string);
+  ~AlexicalAnalizer(void);
+  void skipSeparators(void);
+  char readChar(void);
+  bool isDigit(char);
+  t_token addCharConst(char);
+  t_token addIntConst(char);
+  t_token nextToken(void);
+  int getLastToken2(void);
+};
 #endif

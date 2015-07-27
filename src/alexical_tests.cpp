@@ -2,7 +2,7 @@
 #include "catch.hpp"
 #include "alexical_an.hpp"
 
-int nextToken(int &i, int &token2) {
+/*int nextToken(int &i, int &token2) {
   switch (i++) {
   case 1:
     return FUNCTION;
@@ -56,9 +56,11 @@ int nextToken(int &i, int &token2) {
 
   return 0;
 }
+*/
 
 TEST_CASE("Teste do Analizador Alexico ¬¬", "[nextToken]") {
   // Load test_code.lang
+  AlexicalAnalizer test_code("src/test_code.lang");
   //--------------------
   // function f (a) {
   //  a++;
@@ -71,33 +73,32 @@ TEST_CASE("Teste do Analizador Alexico ¬¬", "[nextToken]") {
   //  "ALO"
   //}
   //--------------------
-  int i = 1, token2 = 0;
-  REQUIRE(nextToken(i, token2) == FUNCTION);
-  REQUIRE(nextToken(i, token2) == ID);
-  REQUIRE(token2 == 1);
-  REQUIRE(nextToken(i, token2) == LEFT_PARENTHESIS);
-  REQUIRE(nextToken(i, token2) == ID);
-  REQUIRE(token2 == 2);
-  REQUIRE(nextToken(i, token2) == RIGHT_PARENTHESIS);
-  REQUIRE(nextToken(i, token2) == LEFT_BRACES);
-  REQUIRE(nextToken(i, token2) == ID);
-  REQUIRE(token2 == 2);
-  REQUIRE(nextToken(i, token2) == PLUS_PLUS);
-  REQUIRE(nextToken(i, token2) == SEMI_COLON);
-  REQUIRE(nextToken(i, token2) == ID);
-  REQUIRE(token2 == 3);
-  REQUIRE(nextToken(i, token2) == EQUALS);
-  REQUIRE(nextToken(i, token2) == NUMERAL);
-  REQUIRE(nextToken(i, token2) == SEMI_COLON);
-  REQUIRE(nextToken(i, token2) == PLUS);
-  REQUIRE(nextToken(i, token2) == VAR);
-  REQUIRE(nextToken(i, token2) == NUMERAL);
-  REQUIRE(token2 == 1);
-  REQUIRE(nextToken(i, token2) == NUMERAL);
-  REQUIRE(token2 == 2);
-  REQUIRE(nextToken(i, token2) == CHARACTER);
-  REQUIRE(token2 == 3);
-  REQUIRE(nextToken(i, token2) == STRINGVAL);
-  REQUIRE(token2 == 4);
-  REQUIRE(nextToken(i, token2) == RIGHT_BRACES);
+  REQUIRE(test_code.nextToken() == FUNCTION);
+  REQUIRE(test_code.nextToken() == ID);
+  REQUIRE(test_code.getLastToken2() == 1);
+  REQUIRE(test_code.nextToken() == LEFT_PARENTHESIS);
+  REQUIRE(test_code.nextToken() == ID);
+  REQUIRE(test_code.getLastToken2() == 2);
+  REQUIRE(test_code.nextToken() == RIGHT_PARENTHESIS);
+  REQUIRE(test_code.nextToken() == LEFT_BRACES);
+  REQUIRE(test_code.nextToken() == ID);
+  REQUIRE(test_code.getLastToken2() == 2);
+  REQUIRE(test_code.nextToken() == PLUS_PLUS);
+  REQUIRE(test_code.nextToken() == SEMI_COLON);
+  REQUIRE(test_code.nextToken() == ID);
+  REQUIRE(test_code.getLastToken2() == 3);
+  REQUIRE(test_code.nextToken() == EQUALS);
+  REQUIRE(test_code.nextToken() == NUMERAL);
+  REQUIRE(test_code.nextToken() == SEMI_COLON);
+  REQUIRE(test_code.nextToken() == PLUS);
+  REQUIRE(test_code.nextToken() == VAR);
+  REQUIRE(test_code.nextToken() == NUMERAL);
+  REQUIRE(test_code.getLastToken2() == 1);
+  REQUIRE(test_code.nextToken() == NUMERAL);
+  REQUIRE(test_code.getLastToken2() == 2);
+  REQUIRE(test_code.nextToken() == CHARACTER);
+  REQUIRE(test_code.getLastToken2() == 3);
+  REQUIRE(test_code.nextToken() == STRINGVAL);
+  REQUIRE(test_code.getLastToken2() == 4);
+  REQUIRE(test_code.nextToken() == RIGHT_BRACES);
 }
