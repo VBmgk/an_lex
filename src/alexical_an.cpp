@@ -18,7 +18,8 @@ AlexicalAnalizer::~AlexicalAnalizer() {
 
 void AlexicalAnalizer::skipSeparators(void) {
   // seems like I don't need this function
-  // as the ifstream do this for me
+  // as the ifstream do this for me...
+  // maybe for comments...
 }
 
 char AlexicalAnalizer::readChar(void) {
@@ -30,15 +31,44 @@ char AlexicalAnalizer::readChar(void) {
   }
 }
 
+t_token searchKeyWord(char *name) {
+    // regular key words
+    if(strcmp(name,"array")) return ARRAY;
+    if(strcmp(name, "boolean")) return BOOLEAN;
+    if(strcmp(name, "break")) return BREAK;
+    if(strcmp(name, "char")) return CHAR;
+    if(strcmp(name, "continue")) return CONTINUE;
+    if(strcmp(name, "do")) return DO;
+    if(strcmp(name, "else")) return ELSE;
+    if(strcmp(name, "false")) return FALSE;
+    if(strcmp(name, "function")) return FUNCTION;
+    if(strcmp(name, "if")) return IF;
+    if(strcmp(name, "integer")) return INTEGER;
+    if(strcmp(name, "of")) return OF;
+    if(strcmp(name, "string")) return STRING;
+    if(strcmp(name, "struct")) return STRUCT;
+    if(strcmp(name, "true")) return TRUE;
+    if(strcmp(name, "type")) return TYPE;
+    if(strcmp(name, "var")) return VAR;
+    if(strcmp(name, "while")) return WHILE;
+    // -> And
+    // -> Dot
+    // -> Or
+    // -> Not
+}
+
 bool AlexicalAnalizer::isDigit(char ch) {
   return (ch < '0' || ch > '9') ? false : true;
 }
+
 t_token AlexicalAnalizer::addCharConst(char ch) {
+  // TODO
   t_token token;
   return token;
 }
 
 t_token AlexicalAnalizer::addIntConst(char ch) {
+  // TODO
   t_token token;
   return token;
 }
@@ -49,9 +79,9 @@ t_token AlexicalAnalizer::nextToken(void) {
 
   char next_char;
 
-  // tratar comentários
+  // Trata comentários
   skipSeparators();
-  // token regular numeral
+  // Numeral
   if (isDigit(next_char)) {
     int n = 0;
     do {
@@ -59,29 +89,105 @@ t_token AlexicalAnalizer::nextToken(void) {
       next_char = readChar();
     } while (isDigit(next_char));
 
+    // update token variables
     token = NUMERAL;
     token2 = addIntConst(n);
   }
-  // token regular string
+  // Stringval
   if (next_char == '"') {
     char string[MAX_STRING_SIZE + 1];
     int i = 0;
-
-    next_char = readChar(); // to remove
-
+    // to remove '"' from string
+    next_char = readChar();
+    // store value of string on variable
     do {
       string[i++] = next_char;
       next_char = readChar();
     } while (next_char != '"');
+
+    // update token variables
+    token = STRINGVAL;
+    token2 = addStringConst(string);
   } else {
     switch (next_char) {
-    // simbolos
-    case '(':
-      token = LEFT_PARENTHESIS;
-
+    /***********************
+     * Palavras Reservadas *
+     ***********************/
+    case 'a-z' 'A-Z'
+    /************
+     * SIMBOLOS *
+     ************/
+    // COLON
+    case ':':
       next_char = readChar();
+      token = COLON;
+    // SEMI_COLON
+    case ';':
+      next_char = readChar();
+      token = SEMI_COLON;
+    // COMMA
+    case ',':
+      next_char = readChar();
+      token = COMMA;
       break;
-
+    // 'Squares'
+    case '[':
+      next_char = readChar();
+      token = LEFT_SQUARE;
+      break;
+    case ']':
+      next_char = readChar();
+      token = RIGHT_SQUARE;
+      break;
+    // Braces
+    case '{':
+      next_char = readChar();
+      token = LEFT_BRACES;
+      break;
+    case '}':
+      next_char = readChar();
+      token = RIGHT_BRACES;
+      break;
+    // Parenthesis
+    case '(':
+      next_char = readChar();
+      token = LEFT_PARENTHESIS;
+      break;
+    case ')':
+      next_char = readChar();
+      token = RIGHT_PARENTHESIS;
+      break;
+    // Less_than and Less_or_equal
+    case '<':
+      next_char = readChar();
+      token = LESS_THAN;
+      if (next_char == '=') {
+        token = LESS_OR_EQUAL;
+        next_char = readChar();
+      }
+      break;
+    // Greater_than and Greater_or_equal
+    case '>':
+      next_char = readChar();
+      token = GREATER_THAN;
+      if (next_char == '=') {
+        token = GREATER_OR_EQUAL;
+        next_char = readChar();
+      }
+      break;
+    // Not_equal
+    case '!': // TODO
+      break;
+    // Equals and equal_equal
+    case '=':
+      next_char = readChar();
+      if (nex_char == '=') {
+        token = EQUAL_EQUAL;
+        next_char = readChar();
+      } else {
+        token = EQUALS;
+      }
+    // Plus and plus_plus
     case '+':
       next_char = readChar();
       if (next_char == '+') {
@@ -91,16 +197,38 @@ t_token AlexicalAnalizer::nextToken(void) {
         token = PLUS;
       }
       break;
-
-    // token regular char
+    // Minus and minus_minus
+    case '-':
+      next_char = readChar();
+      if (next_char == '-') {
+        token = MINUS_MINUS;
+        next_char = readChar();
+      } else {
+        token = MINUS;
+      }
+      break;
+    // Times
+    case '*':
+      next_char = readChar();
+      token = TIMES;
+      break;
+    // Divide
+    case '/':
+      next_char = readChar();
+      token = DIVIDE;
+      break;
+    /********************
+     * Tokens Regulares *
+     ********************/
+    // Character
     case '\'':
       next_char = readChar();
+      // update token variable
       token = CHARACTER;
       token2 = addCharConst(next_char);
       next_char = readChar();
       if ('\'' != next_char)
         token = UNKNOWN;
-
       next_char = readChar();
       break;
     }

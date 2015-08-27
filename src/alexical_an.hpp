@@ -70,6 +70,7 @@ public:
   bool isDigit(char);
   t_token addCharConst(char);
   t_token addIntConst(char);
+  t_token addStringConst(std::string);
   t_token nextToken(void);
   int getLastToken2(void);
 };
