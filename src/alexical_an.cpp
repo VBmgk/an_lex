@@ -34,14 +34,12 @@ AlexicalAnalizer::AlexicalAnalizer(std::string source_code_name) {
 AlexicalAnalizer::~AlexicalAnalizer() {
   // close file
   source_code.close();
-  source_code.clear();
 }
 
 void AlexicalAnalizer::skipSeparators(void) {
-  // seems like I don't need this function
-  // as the ifstream do this for me...
-  // maybe for comments...
-  while (next_char == ' ' || next_char == '\n') {
+  while (next_char == ' ' || next_char == '\n' ||
+         next_char == '\f'|| next_char == '\t' ||
+         next_char == '\v'|| next_char == '\r') {
     next_char = readChar();
   }
 }
