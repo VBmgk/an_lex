@@ -5,18 +5,18 @@
 #include <cctype>
 #include "alexical_an.hpp"
 
-int AlexicalAnalizer::searchName(char* name) {
+int AlexicalAnalizer::searchName(std::string name) {
   int i = 0;
   // search in vector token_sec
   for (auto know_id: const_table) {
-    if (know_id.type == ID && strcmp(know_id.id_name, name)) return i;
+    if (know_id.type == ID && strcmp(know_id.id_name, name.c_str()) == 0) return i;
     i++;
   }
 
   // Add id to table
   ConstValue buff;
   buff.type = ID;
-  strcpy(buff.id_name, name);
+  strcpy(buff.id_name, name.c_str());
   const_table.push_back(buff);
 
   return i;
@@ -50,35 +50,36 @@ char AlexicalAnalizer::readChar(void) {
   char buff = '@';
   if (!source_code.eof()) {
     buff = source_code.get();
-    if (source_code.good())
+    if (source_code.good()) {
       return buff;
+    }
   }
   return buff;
 }
 
-t_token AlexicalAnalizer::searchKeyWord(char *name) {
+t_token AlexicalAnalizer::searchKeyWord(std::string name) {
   // regular key words
-  if(strcmp(name,"array") == 0) return ARRAY;
-  if(strcmp(name, "boolean") == 0) return BOOLEAN;
-  if(strcmp(name, "break") == 0) return BREAK;
-  if(strcmp(name, "char") == 0) return CHAR;
-  if(strcmp(name, "continue") == 0) return CONTINUE;
-  if(strcmp(name, "do") == 0) return DO;
-  if(strcmp(name, "else") == 0) return ELSE;
-  if(strcmp(name, "false") == 0) return FALSE;
-  if(strcmp(name, "function") == 0) return FUNCTION;
-  if(strcmp(name, "if") == 0) return IF;
-  if(strcmp(name, "integer") == 0) return INTEGER;
-  if(strcmp(name, "of") == 0) return OF;
-  if(strcmp(name, "string") == 0) return STRING;
-  if(strcmp(name, "struct") == 0) return STRUCT;
-  if(strcmp(name, "true") == 0) return TRUE;
-  if(strcmp(name, "type") == 0) return TYPE;
-  if(strcmp(name, "var") == 0) return VAR;
-  if(strcmp(name, "while") == 0) return WHILE;
-  if(strcmp(name, "and") == 0) return AND;
-  if(strcmp(name, "or") == 0) return OR;
-  if(strcmp(name, "not") == 0) return NOT;
+  if(name == "array") return ARRAY;
+  if(name == "boolean") return BOOLEAN;
+  if(name == "break") return BREAK;
+  if(name == "char") return CHAR;
+  if(name == "continue") return CONTINUE;
+  if(name == "do") return DO;
+  if(name == "else") return ELSE;
+  if(name == "false") return FALSE;
+  if(name == "function") return FUNCTION;
+  if(name == "if") return IF;
+  if(name == "integer") return INTEGER;
+  if(name == "of") return OF;
+  if(name == "string") return STRING;
+  if(name == "struct") return STRUCT;
+  if(name == "true") return TRUE;
+  if(name == "type") return TYPE;
+  if(name == "var") return VAR;
+  if(name == "while") return WHILE;
+  if(name == "and") return AND;
+  if(name == "or") return OR;
+  if(name == "not") return NOT;
   
   return ID;
 }
@@ -103,11 +104,11 @@ int AlexicalAnalizer::addIntConst(int value) {
   return const_table.size() - 1;
 }
 
-int AlexicalAnalizer::addStringConst(char* value) {
+int AlexicalAnalizer::addStringConst(std::string value) {
   // setup values
   ConstValue buff;
   buff.type = STRINGVAL; 
-  strcpy(buff.string_const, value);
+  strcpy(buff.string_const, value.c_str());
   // add to table
   const_table.push_back(buff);
   return const_table.size() - 1;

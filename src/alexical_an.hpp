@@ -83,10 +83,10 @@ public:
   char readChar(void);
   int addCharConst(char);
   int addIntConst(int);
-  int addStringConst(char*);
+  int addStringConst(std::string);
   t_token nextToken(void);
   int getLastToken2(void);
-  t_token searchKeyWord(char*);
-  int searchName(char*);
+  t_token searchKeyWord(std::string);
+  int searchName(std::string);
 };
 #endif
