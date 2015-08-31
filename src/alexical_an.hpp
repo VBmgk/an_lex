@@ -1,5 +1,6 @@
 #ifndef ALEXICAL_AN
 #define ALEXICAL_AN
+#include <vector>
 #define MAX_STRING_SIZE 50
 
 typedef enum {
@@ -58,20 +59,34 @@ typedef enum {
   UNKNOWN
 } t_token;
 
+typedef struct {
+  t_token type;
+  union {
+    char char_const;
+    char string_const[MAX_STRING_SIZE];
+    char id_name[MAX_STRING_SIZE];
+    int int_const;
+  };
+} ConstValue;
+
 class AlexicalAnalizer {
   std::ifstream source_code;
-  t_token last_token, last_token2;
+  t_token last_token;
+  int last_token2;
+  char next_char;
+  std::vector<ConstValue> const_table;
 
 public:
   AlexicalAnalizer(std::string);
   ~AlexicalAnalizer(void);
   void skipSeparators(void);
   char readChar(void);
-  bool isDigit(char);
-  t_token addCharConst(char);
-  t_token addIntConst(char);
-  t_token addStringConst(std::string);
+  int addCharConst(char);
+  int addIntConst(int);
+  int addStringConst(char*);
   t_token nextToken(void);
   int getLastToken2(void);
+  t_token searchKeyWord(char*);
+  int searchName(char*);
 };
 #endif
