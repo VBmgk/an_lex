@@ -157,6 +157,7 @@ t_token AlexicalAnalizer::nextToken(void) {
       string[i++] = next_char;
       next_char = readChar();
     } while (next_char != '"');
+    next_char = readChar();
 
     // update token variables
     token = STRINGVAL;

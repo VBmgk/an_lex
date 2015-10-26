@@ -1,7 +1,7 @@
 #ifndef ALEXICAL_AN
 #define ALEXICAL_AN
 #include <vector>
-#define MAX_STRING_SIZE 50
+#define MAX_STRING_SIZE 100
 
 typedef enum {
   // palavras reservadas
